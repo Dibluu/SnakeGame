@@ -1,10 +1,9 @@
-import time as T
+import time
 from turtle import Screen
 from scoreboard import Scoreboard
 from snake import Snake
 from food import Food
-import random as R
-SPEED = 1e-999999
+SPEED = 1e-999999999999999999999999999999
 #Calling the variable:
 
 screen = Screen()
@@ -29,23 +28,22 @@ screen.onkey(tom.right, "q")
 game_is_on = True
 while game_is_on:
     screen.update()
-    T.sleep(SPEED)
+    time.sleep(SPEED)
     tom.move()
     #Detect collision with food
     if tom.head.distance(food.pos()) < 15:
         food.refresh()
-        scoreboard.hideturtle()
         tom.extend()
         scoreboard.increase_score()
-        SPEED *= 1e-10000
+        SPEED *= 0.001
 
     #Detect collision with wall
     if tom.head.xcor() > 280 or tom.head.xcor() < -280 or tom.head.ycor() > 280 or tom.head.ycor() < -280:
-        game_is_on = False
-        scoreboard.game_over()
+        scoreboard.reset_score()
+        tom.reset_snake()
     #Detect collision with the tail
     if tom.eat_Tails():
-        game_is_on = False
-        scoreboard.game_over()
+        scoreboard.reset_score()
+        tom.reset_snake()
 
 screen.mainloop()
